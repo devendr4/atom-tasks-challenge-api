@@ -14,9 +14,11 @@ export const createTask = async (req: Request, res: Response) => {
   try {
     const task: Task = req.body;
     const newTask = await addTaskToCollection(task);
-    return res.json({ ...task, time: newTask.writeTime });
+    return res.json({ ...task, id: newTask.id });
   } catch (e) {
-    return res.status(500).json({ msg: "An error has ocurred!" });
+    return res
+      .status(500)
+      .json({ msg: "An error has ocurred when creating the task!" });
   }
 };
 
