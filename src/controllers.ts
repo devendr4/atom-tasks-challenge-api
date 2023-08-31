@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+
 import {
   addTaskToCollection,
   deleteTaskFromCollection,
@@ -6,6 +7,7 @@ import {
   fetchTasksCollection,
 } from "./db";
 import { Task } from "./types";
+import { handleUpdateError } from "./utils";
 
 export const getTasks = async (_: Request, res: Response) => {
   try {
@@ -33,11 +35,8 @@ export const editTask = async (req: Request, res: Response) => {
     const task: Task = req.body;
     await editCollectionTask({ ...task, id: req.params.id });
     return res.json({ msg: `edited task!${req.params.id}` });
-  } catch (e: any) {
-    if (e?.details.includes("No document to update"))
-      return res.status(404).json({ msg: "Task not found" });
-
-    return res.status(500).json({ msg: "An error has ocurred!" });
+  } catch (e: unknown) {
+    return handleUpdateError({ e, res });
   }
 };
 
@@ -45,10 +44,7 @@ export const deleteTask = async (req: Request, res: Response) => {
   try {
     await deleteTaskFromCollection(req.params.id);
     return res.status(204).send();
-  } catch (e:any) {
-    if (e?.details.includes("No document to update"))
-      return res.status(404).json({ msg: "Task not found" });
-
-    return res.status(500).json({ msg: "An error has ocurred!" });
+  } catch (e: unknown) {
+    return handleUpdateError({ e, res });
   }
 };

@@ -27,6 +27,7 @@ rules:
    "unused-imports/no-unused-imports": "error"
    "@typescript-eslint/no-unused-vars": off
    "@typescript-eslint/no-explicit-any": "warn"
+   "import/prefer-default-export": 'off'
 
 
 # rules:
