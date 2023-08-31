@@ -1,4 +1,4 @@
-import { GrpcStatus } from "firebase-admin/firestore";
+import { GrpcStatus, Timestamp } from "firebase-admin/firestore";
 
 export interface Task {
   id: string;
@@ -6,6 +6,12 @@ export interface Task {
   description: string;
   pending: boolean;
   deleted?: boolean;
+  createdAt: Date;
+}
+export interface FirestoreTask extends Omit<Task, "createdAt"> {
+  // firestore automatically changes Dates to Timestamps
+  // so it's needed to create a different type for the tasks with Timestamps returned by firebase
+  createdAt: Timestamp;
 }
 
 export interface FirestoreError {
