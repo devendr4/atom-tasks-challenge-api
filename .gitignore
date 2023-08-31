@@ -1,2 +1,3 @@
 node_modules/
 gcp_key.json
+dist/

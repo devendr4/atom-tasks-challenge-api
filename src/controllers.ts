@@ -33,8 +33,8 @@ export const editTask = async (req: Request, res: Response) => {
     const task: Task = req.body;
     await editCollectionTask({ ...task, id: req.params.id });
     return res.json({ msg: `edited task!${req.params.id}` });
-  } catch (e: unknown) {
-    if (e.details.includes("No document to update"))
+  } catch (e: any) {
+    if (e?.details.includes("No document to update"))
       return res.status(404).json({ msg: "Task not found" });
 
     return res.status(500).json({ msg: "An error has ocurred!" });
@@ -45,8 +45,8 @@ export const deleteTask = async (req: Request, res: Response) => {
   try {
     await deleteTaskFromCollection(req.params.id);
     return res.status(204).send();
-  } catch (e) {
-    if (e.details.includes("No document to update"))
+  } catch (e:any) {
+    if (e?.details.includes("No document to update"))
       return res.status(404).json({ msg: "Task not found" });
 
     return res.status(500).json({ msg: "An error has ocurred!" });
