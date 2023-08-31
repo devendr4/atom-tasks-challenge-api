@@ -13,10 +13,27 @@ export const fetchTasksCollection = async (): Promise<Task[]> => {
     tasks.push({ id: task.id, ...data });
   });
   // return tasks that aren't empty by checking they have more than one field (the id field)
-  return tasks.filter(task => Object.keys(task).length > 1) as Task[];
+  return tasks.filter(
+    task => Object.keys(task).length > 1 && !task.deleted
+  ) as Task[];
 };
 
 export const addTaskToCollection = async (task: Task) => {
   const newTask = db.collection("tasks");
-  return newTask.add({ ...task });
+  return newTask.add({ ...task, deleted: false });
+};
+
+export const editCollectionTask = async (task: Task) => {
+  return db
+    .collection("tasks")
+    .doc(task.id)
+    .update({
+      ...task,
+    });
+};
+
+export const deleteTaskFromCollection = async (id: string) => {
+  return db.collection("tasks").doc(id).update({
+    deleted: true,
+  });
 };

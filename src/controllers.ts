@@ -1,5 +1,10 @@
 import { Request, Response } from "express";
-import { addTaskToCollection, fetchTasksCollection } from "./db";
+import {
+  addTaskToCollection,
+  deleteTaskFromCollection,
+  editCollectionTask,
+  fetchTasksCollection,
+} from "./db";
 import { Task } from "./types";
 
 export const getTasks = async (_: Request, res: Response) => {
@@ -14,7 +19,8 @@ export const createTask = async (req: Request, res: Response) => {
   try {
     const task: Task = req.body;
     const newTask = await addTaskToCollection(task);
-    return res.json({ ...task, id: newTask.id });
+    // created response
+    return res.status(201).json({ ...task, id: newTask.id });
   } catch (e) {
     return res
       .status(500)
@@ -22,18 +28,27 @@ export const createTask = async (req: Request, res: Response) => {
   }
 };
 
-export const editTask = (req: Request, res: Response) => {
+export const editTask = async (req: Request, res: Response) => {
   try {
+    const task: Task = req.body;
+    await editCollectionTask({ ...task, id: req.params.id });
     return res.json({ msg: `edited task!${req.params.id}` });
-  } catch (e) {
+  } catch (e: unknown) {
+    if (e.details.includes("No document to update"))
+      return res.status(404).json({ msg: "Task not found" });
+
     return res.status(500).json({ msg: "An error has ocurred!" });
   }
 };
 
-export const deleteTask = (req: Request, res: Response) => {
+export const deleteTask = async (req: Request, res: Response) => {
   try {
-    return res.json({ msg: `deleted task!${req.params.id}` });
+    await deleteTaskFromCollection(req.params.id);
+    return res.status(204).send();
   } catch (e) {
+    if (e.details.includes("No document to update"))
+      return res.status(404).json({ msg: "Task not found" });
+
     return res.status(500).json({ msg: "An error has ocurred!" });
   }
 };
