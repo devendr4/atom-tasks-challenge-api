@@ -1,20 +1,18 @@
 import { Request, Response } from "express";
-import { fetchTasks } from "./db";
+import { fetchTasksCollection } from "./db";
 
 export const getTasks = async (_: Request, res: Response) => {
   try {
-    return res.json({ tasks: await fetchTasks() });
+    return res.json({ tasks: await fetchTasksCollection() });
   } catch (e) {
-    console.log(e);
-    return undefined;
+    return res.status(500).json({ msg: "An error has ocurred!" });
   }
 };
 
-export const createTask = () => {
+export const createTask = (_: Request, res: Response) => {
   try {
-    // creating
+    return res.json({ msg: "created!" });
   } catch (e) {
-    console.log(e);
-    return undefined;
+    return res.status(500).json({ msg: "An error has ocurred!" });
   }
 };

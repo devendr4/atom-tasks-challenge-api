@@ -9,7 +9,7 @@ dotenv.config();
 const app: Application = express();
 const port = process.env.PORT || 8000;
 
-app.use("/tasks", router);
+app.use("/v1", router);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
