@@ -9,9 +9,10 @@ import {
 import { Task } from "./types";
 import { handleUpdateError } from "./utils";
 
-export const getTasks = async (_: Request, res: Response) => {
+export const getTasks = async (req: Request, res: Response) => {
   try {
-    return res.json({ tasks: await fetchTasksCollection() });
+    const { lastTask } = req.query;
+    return res.json({ tasks: await fetchTasksCollection(lastTask as string) });
   } catch (e) {
     return res.status(500).json({ msg: "An error has ocurred!" });
   }
@@ -20,9 +21,14 @@ export const getTasks = async (_: Request, res: Response) => {
 export const createTask = async (req: Request, res: Response) => {
   try {
     const task: Task = req.body;
-    const newTask = await addTaskToCollection(task);
+    const newTaskDocument = await (await addTaskToCollection(task)).get();
+    const newTask = newTaskDocument.data();
     // created response
-    return res.status(201).json({ ...task, id: newTask.id });
+    return res.status(201).json({
+      ...newTask,
+      id: newTaskDocument.id,
+      createdAt: newTask?.createdAt.toDate(),
+    });
   } catch (e) {
     return res
       .status(500)
