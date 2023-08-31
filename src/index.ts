@@ -1,5 +1,7 @@
-import express, { Request, Response, Application } from "express";
+/* eslint-disable no-console */
+import express, { Application } from "express";
 import dotenv from "dotenv";
+import router from "./routes";
 
 // For env File
 dotenv.config();
@@ -7,15 +9,7 @@ dotenv.config();
 const app: Application = express();
 const port = process.env.PORT || 8000;
 
-app.get("/", (req: Request, res: Response) => {
-  console.log("test");
-  res.json({ msg: "hello wlrd" });
-});
-
-app.get("/tasks", (req: Request, res: Response) => {
-  console.log("test");
-  res.json({ tasks: "tasks" });
-});
+app.use("/v1", router);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
