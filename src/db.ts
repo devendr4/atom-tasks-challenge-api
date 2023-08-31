@@ -10,8 +10,7 @@ export const fetchTasksCollection = async (): Promise<Task[]> => {
   return snapshot.docs.map(v => v.data()) as Task[];
 };
 
-export const createTask = async () => {
-  const snapshot = await db.collection("tasks").get();
-  return snapshot;
-  // console.log(snapshot.docs.map(v => v.data()));
+export const addTaskToCollection = async (task: Task) => {
+  const newTask = db.collection("tasks").doc();
+  return newTask.set({ ...task });
 };

@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import express, { Application } from "express";
 import dotenv from "dotenv";
+import bodyParser from "body-parser";
 import router from "./routes";
 
 // For env File
@@ -8,7 +9,7 @@ dotenv.config();
 
 const app: Application = express();
 const port = process.env.PORT || 8000;
-
+app.use(bodyParser.json());
 app.use("/v1", router);
 
 app.listen(port, () => {
