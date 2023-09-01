@@ -16,4 +16,4 @@ app.use("/v1", router);
 // app.listen(port, () => {
 //   console.log(`Listening on port ${port}`);
 // });
-onRequest(app);
+export default onRequest(app);

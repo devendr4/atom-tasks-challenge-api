@@ -4,7 +4,7 @@ export interface Task {
   id: string;
   title: string;
   description: string;
-  pending: boolean;
+  completed: boolean;
   deleted?: boolean;
   createdAt: Date;
 }

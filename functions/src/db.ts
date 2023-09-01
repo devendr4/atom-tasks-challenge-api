@@ -6,7 +6,7 @@ initializeApp();
 
 const db = getFirestore();
 
-const pageSize = 3;
+const pageSize = 10;
 
 export const fetchTasksCollection = async (
   lastDocId?: string
