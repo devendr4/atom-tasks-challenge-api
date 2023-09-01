@@ -13,8 +13,7 @@ export const getTasks = async (req: Request, res: Response) => {
   try {
     const { lastTask } = req.query;
     return res.json(await fetchTasksCollection(lastTask as string));
-  } catch (e) {
-    console.log(e);
+  } catch {
     return res.status(500).json({ msg: "An error has ocurred!" });
   }
 };
