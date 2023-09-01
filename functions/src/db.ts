@@ -19,9 +19,10 @@ export const fetchTasksCollection = async (
   }
   const snapshot = await db
     .collection("tasks")
-    .orderBy("createdAt")
+    .orderBy("createdAt", "desc")
+    .orderBy("completed", "asc")
     .where("deleted", "==", false)
-    .startAfter(lastDocDate || 0)
+    .startAfter(lastDocDate || new Date())
     .limit(pageSize)
     .get();
 

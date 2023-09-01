@@ -41,7 +41,7 @@ export const editTask = async (req: Request, res: Response) => {
   try {
     const task: Task = req.body;
     await editCollectionTask({ ...task, id: req.params.id });
-    return res.json({ task });
+    return res.json(task);
   } catch (e: unknown) {
     return handleUpdateError({ e, res });
   }
