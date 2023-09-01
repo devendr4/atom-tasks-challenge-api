@@ -1,4 +1,5 @@
-/* eslint-disable no-console */
+import { onRequest } from "firebase-functions/v2/https";
+
 import express, { Application } from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
@@ -8,10 +9,11 @@ import router from "./routes";
 dotenv.config();
 
 const app: Application = express();
-const port = process.env.PORT || 8000;
 app.use(bodyParser.json());
 app.use("/v1", router);
 
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
+// const port = process.env.PORT || 8000;
+// app.listen(port, () => {
+//   console.log(`Listening on port ${port}`);
+// });
+export default onRequest(app);

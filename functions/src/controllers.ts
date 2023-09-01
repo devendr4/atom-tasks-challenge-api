@@ -12,8 +12,9 @@ import { handleUpdateError } from "./utils";
 export const getTasks = async (req: Request, res: Response) => {
   try {
     const { lastTask } = req.query;
-    return res.json({ tasks: await fetchTasksCollection(lastTask as string) });
+    return res.json(await fetchTasksCollection(lastTask as string));
   } catch (e) {
+    console.log(e);
     return res.status(500).json({ msg: "An error has ocurred!" });
   }
 };
@@ -40,7 +41,7 @@ export const editTask = async (req: Request, res: Response) => {
   try {
     const task: Task = req.body;
     await editCollectionTask({ ...task, id: req.params.id });
-    return res.json({ msg: `edited task!${req.params.id}` });
+    return res.json({ task });
   } catch (e: unknown) {
     return handleUpdateError({ e, res });
   }
