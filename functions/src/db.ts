@@ -1,8 +1,8 @@
 import { getFirestore } from "firebase-admin/firestore";
-import { cert, initializeApp } from "firebase-admin/app";
+import { initializeApp } from "firebase-admin/app";
 import { FirestoreTask, Task } from "./types";
 
-initializeApp({ credential: cert("./gcp_key.json") });
+initializeApp();
 
 const db = getFirestore();
 

@@ -1,0 +1,56 @@
+root: true
+parser: "@typescript-eslint/parser"
+
+env:
+  es6: true
+
+extends:
+  - airbnb-base
+  - airbnb-typescript/base
+  - prettier
+  - plugin:prettier/recommended
+
+parserOptions:
+   ecmaVersion: latest
+   sourceType: "module"
+   project:
+      - tsconfig.json
+   ecmaFeatures:
+     jsx: true
+
+plugins:
+  - unused-imports
+
+
+rules:
+   "unused-imports/no-unused-imports": "error"
+   "@typescript-eslint/no-unused-vars": off
+   "@typescript-eslint/no-explicit-any": "warn"
+   "import/prefer-default-export": 'off'
+
+ignorePatterns: "dist/*"
+
+# rules:
+#   - "@typescript-eslint/no-unused-vars": "off"
+
+# {
+#   "extends": [
+#     "prettier",
+#     "plugin:prettier/recommended",
+#     "next/core-web-vitals"
+#   ],
+#   "plugins": ["unused-imports"],
+#   "rules": {
+#     "@typescript-eslint/no-unused-vars": "on",
+#     "unused-imports/no-unused-imports": "error",
+#     "unused-imports/no-unused-vars": [
+#       "warn",
+#       {
+#         "vars": "all",
+#         "varsIgnorePattern": "^_",
+#         "args": "after-used",
+#         "argsIgnorePattern": "^_"
+#       }
+#     ]
+#   }
+# }
