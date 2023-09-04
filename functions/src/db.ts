@@ -11,18 +11,20 @@ const pageSize = 10;
 export const fetchTasksCollection = async (
   lastDocId?: string
 ): Promise<{ tasks: Task[]; lastTaskId?: string }> => {
-  let lastDocDate = 0;
+  let lastDoc: Task | undefined;
 
   if (lastDocId) {
-    const lastDoc = (await db.collection("tasks").doc(lastDocId).get()).data();
-    lastDocDate = lastDoc?.createdAt;
+    lastDoc = (
+      await db.collection("tasks").doc(lastDocId).get()
+    ).data() as Task;
   }
   const snapshot = await db
     .collection("tasks")
-    .orderBy("createdAt", "desc")
+    // sorts by pending tasks first by descending creation date
     .orderBy("completed", "asc")
+    .orderBy("createdAt", "desc")
     .where("deleted", "==", false)
-    .startAfter(lastDocDate || new Date())
+    .startAfter(lastDoc?.completed || false, lastDoc?.createdAt || new Date())
     .limit(pageSize)
     .get();
 
