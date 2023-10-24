@@ -1,5 +1,5 @@
 # API
-This project was made as part of a coding challenge for the Atom Chat company. It's a Node.js server that connectto the NoSQL database Cloud Firestore where the tasks for the to-do list app are created and fetched.
+This project was made as part of a coding challenge for the Atom Chat company. It's a Node.js server that connects to the NoSQL database Cloud Firestore where the tasks for the to-do list app are created and fetched.
 Built with:
 - Express.js: 4.8.2
 - TypeScript: 5.2.2
